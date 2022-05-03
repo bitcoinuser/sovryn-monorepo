@@ -1,0 +1,52 @@
+{
+  "common": {
+    "confirm": "Confirm",
+    "close": "Close",
+    "cancel": "Cancel",
+    "alert": "You are connected to wrong network.",
+    "discontinued": "DISCONTINUED"
+  },
+  "dialogs": {
+    "providerTypes": {
+      "title": "Select wallet type:",
+      "items": {
+        "hardware": "Hardware",
+        "mobile": "Mobile",
+        "browser": "Browser",
+        "software": "Software"
+      },
+      "instructions": "For instructions on how to connect to SOVRYN visit our Wiki",
+      "ledgerInstructions": "Don't understand Derivation Paths? Read our wiki",
+      "instructionsMobile":"For instructions on how to connect mobile wallets to SOVRYN visit our Wiki",
+      "ledgerAppInstruction": "Make sure you have {{app}} app opened in your Ledger Device."
+    },
+    "browserSelector": {
+      "title": "Select browser wallet type",
+      "disable": "Make sure to disable other wallet browser extensions than the one you want to use.",
+      "download": "Download",
+      "learn": "Learn More"
+    },
+    "hardwareSelector": {
+      "title": "Choose Wallet",
+      "noWallet": "No wallets in selected derivation path. Try changing path or app in your wallet."
+    },
+    "softwareSelector": {
+      "title": "Connect using Software Wallet",
+      "pk": "Enter your wallet private key.",
+      "submit": "Submit",
+      "learn": "Learn More"
+    },
+    "walletConnect": {
+      "title":"Scan QR code to connect wallet using WalletConnect",
+      "wallet": "Compatible mobile wallets"
+    },
+    "hardwareWallet": {
+      "title":"Select hardware wallet",
+      "success":"Copied Successfully"
+    },
+    "hardwarePath": {
+      "title": "Connect {{name}}",
+      "disable": "Connect your ledger device via USB and open {{networkName}} app."
+    }
+  }
+}

@@ -1,13 +1,13 @@
+import { debug } from '@sovryn/common';
 import { FullWallet } from './interfaces';
 import {
   NetworkDictionary,
   walletProviderMap,
   web3Wallets,
 } from './dictionaries';
-import { debug } from '@sovryn/common';
 import { ProviderType } from './constants';
 import { EventBag } from './utils';
-import type { RawTransactionData } from './interfaces/wallet.interface';
+import type { RawTransactionData, RequestPayload } from './interfaces/wallet.interface';
 
 const { log, error } = debug('@sovryn/wallet:wallet.service');
 
@@ -22,8 +22,8 @@ export class WalletService {
   public readonly events: EventBag<WalletServiceEvents>;
   readonly networkDictionary: NetworkDictionary;
 
-  private _wallet: FullWallet;
-  private _providerType: ProviderType;
+  private _wallet?: FullWallet;
+  private _providerType?: ProviderType;
 
   constructor() {
     this.events = new EventBag<WalletServiceEvents>();
@@ -35,7 +35,6 @@ export class WalletService {
     log(`get provider ${provider}`);
     const Provider = walletProviderMap[provider];
     if (Provider) {
-      // @ts-ignore
       return new Provider(this);
     } else {
       error('provider not found.');
@@ -54,10 +53,8 @@ export class WalletService {
     if (this.wallet) {
       await this.wallet.disconnect();
     }
-    // @ts-ignore
-    this._wallet = null;
-    // @ts-ignore
-    this._providerType = null;
+    this._wallet = undefined;
+    this._providerType = undefined;
     this.events.trigger('disconnected');
     log('disconnected');
     return true;
@@ -84,7 +81,7 @@ export class WalletService {
   /**
    * @deprecated use wallet prop instead.
    */
-  public getWallet(): FullWallet {
+  public getWallet() {
     return this._wallet;
   }
 
@@ -120,5 +117,17 @@ export class WalletService {
   public signMessage(message: string) {
     if (!this.wallet) throw Error('Not connected');
     return this.wallet.signMessage(message, {} as any);
+  }
+
+  public signRawTransaction(tx: RawTransactionData) {
+    log('sign raw tx', tx, this.providerType);
+    if (!this.wallet) throw Error('Not connected');
+    return this.wallet.signRawTransaction(tx);
+  }
+
+  public request(payload: RequestPayload) {
+    log('request', payload);
+    if (!this.wallet) throw Error('Not connected');
+    return this.wallet.request(payload);
   }
 }

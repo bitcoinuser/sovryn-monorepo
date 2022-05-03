@@ -2,6 +2,9 @@ import * as React from 'react';
 import cn from 'classnames';
 import style from './index.module.css';
 import { isMobile } from '../../services/helpers';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../locales/i18n';
+
 
 interface Props {
   image: string;
@@ -14,15 +17,18 @@ interface Props {
   linkHref?: string;
   small?: boolean;
   href?: string;
+  dataAttribute?: string;
 }
 
 export function Item(props: Props) {
+  const { t } = useTranslation();
   return (
     <div
       className={cn(style.container, {
         [style.container_big]: props.linkHref && props.linkTitle,
         [style.small]: props.small,
       })}
+      data-action-id={props.dataAttribute}
     >
       <button
         type='button'
@@ -39,6 +45,11 @@ export function Item(props: Props) {
         />
         <div className={style.title}>{props.title}</div>
       </button>
+      {props.title === 'Nifty' && (
+        <span className={style.discontinued}>
+          {t(translations.common.discontinued)}
+        </span>
+      )}
       {props.linkHref && props.linkTitle && (
         <a
           href={props.linkHref}
@@ -54,12 +65,14 @@ export function Item(props: Props) {
 }
 
 export function ItemLink(props: Props) {
+  const { t } = useTranslation();
   return (
     <div
       className={cn(style.container, {
         [style.container_big]: props.linkHref && props.linkTitle,
         [style.small]: props.small,
       })}
+      data-action-id={props.dataAttribute}
     >
       <a
         className={cn(style.button, {
@@ -77,6 +90,11 @@ export function ItemLink(props: Props) {
         />
         <div className={style.title}>{props.title}</div>
       </a>
+      {props.title === 'rwallet' && (
+        <span className={style.discontinued}>
+          {t(translations.common.discontinued)}
+        </span>
+      )}
       {props.linkHref && props.linkTitle && (
         <a
           href={props.linkHref}
@@ -95,6 +113,7 @@ interface WalletItemProps extends Props {
   ios?: string;
   android?: string;
   universal?: string;
+  dataAttribute?: string;
 }
 
 export function WalletItem(props: WalletItemProps) {
@@ -105,13 +124,12 @@ export function WalletItem(props: WalletItemProps) {
   };
 
   return (
-    <div>
-      <ItemLink
-        image={props.image}
-        title={props.title}
-        small={props.small}
-        href={walletItemHref()}
-      />
-    </div>
+    <ItemLink
+      image={props.image}
+      title={props.title}
+      small={props.small}
+      href={walletItemHref()}
+      dataAttribute={props.dataAttribute}
+    />
   );
 }
